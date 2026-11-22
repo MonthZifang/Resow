@@ -1,0 +1,17 @@
+# 构建产物
+build/
+.gradle/
+
+# 本地测试服务器数据（世界、日志、ops.json、usercache.json 等，绝不能提交）
+run/
+logs/
+
+# 本机私有 Gradle 配置（含绝对路径与代理），用 gradle.properties.example 作模板
+gradle.properties
+
+# IDE / 系统
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db

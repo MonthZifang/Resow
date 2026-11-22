@@ -1,0 +1,15 @@
+# 复制本文件为 gradle.properties 后按本机情况修改。
+# gradle.properties 含本机绝对路径与代理，已加入 .gitignore，不会提交。
+
+org.gradle.jvmargs=-Xmx2G -Duser.language=en -Duser.country=US
+
+# 26.3 的 Java 目标是 25，守护进程与编译统一用 JDK 25。
+# 改成你本机的 JDK 25 路径；若已配置 JAVA_HOME 可整行删掉，让 Gradle 自动探测。
+# org.gradle.java.home=C:/Program Files/Java/jdk-25.0.4.1
+# org.gradle.java.installations.paths=C:/Program Files/Java/jdk-25.0.4.1
+
+# 若直连 maven.fabricmc.net / Mojang libraries 不稳，可按需开启本机代理。
+# systemProp.http.proxyHost=127.0.0.1
+# systemProp.http.proxyPort=7890
+# systemProp.https.proxyHost=127.0.0.1
+# systemProp.https.proxyPort=7890

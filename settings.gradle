@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        maven { name = 'AliyunGradlePlugin'; url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
+        maven { name = 'Aliyun'; url = 'https://maven.aliyun.com/repository/public' }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'crop-replant-26.3'

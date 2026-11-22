@@ -1,0 +1,63 @@
+plugins {
+    // 26.x 官方 plugin id；1.17.20 是本机缓存里已有、支持无映射工程的版本
+    id 'net.fabricmc.fabric-loom' version '1.17.20'
+}
+
+version = '1.0.0'
+group = 'com.example'
+
+base {
+    archivesName = 'crop-replant-26.3-fabric'
+}
+
+loom {
+    // 26.x 官方 jar 不混淆、没有 client_mappings，Yarn/intermediary 停在 1.21.11，
+    // 因此不声明 mappings，源码直接写官方类名，Loom 不做重映射。
+}
+
+repositories {
+    // repo.maven.apache.org 在本机不可用，统一走阿里云镜像
+    maven { url = 'https://maven.aliyun.com/repository/public' }
+}
+
+def centralHosts = ['repo.maven.apache.org', 'repo1.maven.org', 'repo.maven.org'] as Set
+def retargetCentral = { repo ->
+    if (repo instanceof org.gradle.api.artifacts.repositories.MavenArtifactRepository
+            && repo.url != null && centralHosts.contains(repo.url.host)) {
+        repo.url = 'https://maven.aliyun.com/repository/public'
+    }
+}
+repositories.all(retargetCentral)
+buildscript.repositories.all(retargetCentral)
+
+dependencies {
+    minecraft "com.mojang:minecraft:26.3"
+    implementation "net.fabricmc:fabric-loader:0.19.5"
+    // 只需要 fabric-events-interaction-v0 提供的 PlayerBlockBreakEvents，
+    // 这里直接依赖聚合的 fabric-api，和现有 26.3 工程保持一致。
+    implementation "net.fabricmc.fabric-api:fabric-api:0.161.0+26.3"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(25)
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    withSourcesJar()
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filteringCharset 'UTF-8'
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+jar {
+    from('LICENSE') {
+        rename { "${it}_crop-replant" }
+    }
+}

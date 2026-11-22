@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "crop_replant",
+  "version": "1.0.0",
+  "name": "Crop Replant",
+  "description": "服务器模组：玩家挖掉成熟作物后，用背包里的种子自动在原处补种。支持小麦、胡萝卜、土豆、甜菜根、火炬花、地狱疣。",
+  "authors": [
+    "MonthZifang"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.example.cropreplant.CropReplantMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "fabric-api": "*",
+    "minecraft": "~26.3",
+    "java": ">=25"
+  }
+}
