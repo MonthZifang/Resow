@@ -55,13 +55,6 @@ public final class CropReplantMod implements ModInitializer {
         PlayerBlockBreakEvents.BEFORE.register(this::onBeforeBreak);
         PlayerBlockBreakEvents.AFTER.register(this::onAfterBreak);
         CommandRegistrationCallback.EVENT.register((dispatcher, context, selection) -> {
-            dispatcher.register(Commands.literal("replant")
-                    .executes(ctx -> {
-                        Player p = ctx.getSource().getPlayerOrException();
-                        boolean on = toggleFor(p);
-                        ctx.getSource().sendSuccess(() -> Component.literal(on ? "自动补种：已开启" : "自动补种：已关闭"), false);
-                        return 1;
-                    }));
             dispatcher.register(Commands.literal("yueyue")
                     .executes(ctx -> {
                         ServerPlayer p = ctx.getSource().getPlayerOrException();
@@ -71,7 +64,7 @@ public final class CropReplantMod implements ModInitializer {
                         p.openMenu(provider);
                         return 1;
                     })
-                    .then(Commands.literal("补种")
+                    .then(Commands.literal("replant")
                             .then(Commands.literal("开").executes(ctx -> {
                                 Player p = ctx.getSource().getPlayerOrException();
                                 setEnabled(p, true);
@@ -84,26 +77,13 @@ public final class CropReplantMod implements ModInitializer {
                                 ctx.getSource().sendSuccess(() -> Component.literal("自动补种：已关闭"), false);
                                 return 1;
                             })))
-                    .then(Commands.literal("开").executes(ctx -> {
-                        Player p = ctx.getSource().getPlayerOrException();
-                        setEnabled(p, true);
-                        ctx.getSource().sendSuccess(() -> Component.literal("自动补种：已开启"), false);
-                        return 1;
-                    }))
-                    .then(Commands.literal("关").executes(ctx -> {
-                        Player p = ctx.getSource().getPlayerOrException();
-                        setEnabled(p, false);
-                        ctx.getSource().sendSuccess(() -> Component.literal("自动补种：已关闭"), false);
-                        return 1;
-                    })));
-            dispatcher.register(Commands.literal("home")
-                    .executes(ctx -> {
+                    .then(Commands.literal("hemo").executes(ctx -> {
                         ServerPlayer p = ctx.getSource().getPlayerOrException();
                         setHome(p);
                         return 1;
-                    }));
+                    })));
         });
-        LOGGER.info("[crop_replant] loaded. Commands: /replant, /yueyue [开|关], /home");
+        LOGGER.info("[crop_replant] loaded. Commands: /yueyue, /yueyue replant 开|关, /yueyue hemo");
     }
 
     public static void setHome(ServerPlayer player) {
