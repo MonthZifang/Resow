@@ -81,9 +81,20 @@ public final class CropReplantMod implements ModInitializer {
                         ServerPlayer p = ctx.getSource().getPlayerOrException();
                         setHome(p);
                         return 1;
+                    }))
+                    .then(Commands.literal("clearbuff").executes(ctx -> {
+                        ServerPlayer p = ctx.getSource().getPlayerOrException();
+                        p.removeAllEffects();
+                        p.sendSystemMessage(Component.literal("已清除你身上的所有状态效果"));
+                        return 1;
+                    }))
+                    .then(Commands.literal("ykill").executes(ctx -> {
+                        ServerPlayer p = ctx.getSource().getPlayerOrException();
+                        p.kill(p.level());
+                        return 1;
                     })));
         });
-        LOGGER.info("[crop_replant] loaded. Commands: /yueyue, /yueyue replant 开|关, /yueyue hemo");
+        LOGGER.info("[crop_replant] loaded. Commands: /yueyue, replant 开|关, hemo, clearbuff, ykill");
     }
 
     public static void setHome(ServerPlayer player) {

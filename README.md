@@ -37,8 +37,11 @@
 | `/yueyue replant 开` | 开启自己的自动补种 |
 | `/yueyue replant 关` | 关闭自己的自动补种 |
 | `/yueyue hemo` | 把当前脚下的位置设成**自己的**出生点（死亡后在此重生，只影响自己） |
+| `/yueyue clearbuff` | 清除**自己**身上的所有状态效果（buff/debuff） |
+| `/yueyue ykill` | 杀死**自己**（等同原版 `/kill`，会掉落物品） |
 
 > 独立的 `/replant`、`/home` 已移除，统一走 `/yueyue`。
+> 所有功能都只作用于命令执行者本人，不会影响其他玩家。
 
 ## 悦悦工具箱
 
