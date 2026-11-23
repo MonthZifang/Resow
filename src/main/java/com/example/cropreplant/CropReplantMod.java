@@ -71,6 +71,19 @@ public final class CropReplantMod implements ModInitializer {
                         p.openMenu(provider);
                         return 1;
                     })
+                    .then(Commands.literal("补种")
+                            .then(Commands.literal("开").executes(ctx -> {
+                                Player p = ctx.getSource().getPlayerOrException();
+                                setEnabled(p, true);
+                                ctx.getSource().sendSuccess(() -> Component.literal("自动补种：已开启"), false);
+                                return 1;
+                            }))
+                            .then(Commands.literal("关").executes(ctx -> {
+                                Player p = ctx.getSource().getPlayerOrException();
+                                setEnabled(p, false);
+                                ctx.getSource().sendSuccess(() -> Component.literal("自动补种：已关闭"), false);
+                                return 1;
+                            })))
                     .then(Commands.literal("开").executes(ctx -> {
                         Player p = ctx.getSource().getPlayerOrException();
                         setEnabled(p, true);
@@ -86,17 +99,21 @@ public final class CropReplantMod implements ModInitializer {
             dispatcher.register(Commands.literal("home")
                     .executes(ctx -> {
                         ServerPlayer p = ctx.getSource().getPlayerOrException();
-                        BlockPos pos = p.blockPosition();
-                        net.minecraft.resources.Identifier dim = p.level().dimension().identifier();
-                        LevelData.RespawnData data = LevelData.RespawnData.of(
-                                p.level().dimension(), pos, p.getYRot(), p.getXRot());
-                        p.setRespawnPosition(new ServerPlayer.RespawnConfig(data, true), true);
-                        ctx.getSource().sendSuccess(() -> Component.literal(
-                                "已设置你的出生点：" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " @ " + dim), false);
+                        setHome(p);
                         return 1;
                     }));
         });
         LOGGER.info("[crop_replant] loaded. Commands: /replant, /yueyue [开|关], /home");
+    }
+
+    public static void setHome(ServerPlayer player) {
+        BlockPos pos = player.blockPosition();
+        net.minecraft.resources.Identifier dim = player.level().dimension().identifier();
+        LevelData.RespawnData data = LevelData.RespawnData.of(
+                player.level().dimension(), pos, player.getYRot(), player.getXRot());
+        player.setRespawnPosition(new ServerPlayer.RespawnConfig(data, true), true);
+        player.sendSystemMessage(Component.literal(
+                "已设置你的出生点：" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " @ " + dim));
     }
 
     public static boolean isEnabled(Player player) {
