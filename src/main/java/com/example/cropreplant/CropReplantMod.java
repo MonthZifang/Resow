@@ -124,8 +124,8 @@ public final class CropReplantMod implements ModInitializer {
         return enabled;
     }
 
-    public static ItemStack toggleIcon(boolean enabled) {
-        ItemStack icon = new ItemStack(Items.WHEAT_SEEDS);
+    public static ItemStack toggleIcon(Item item, boolean enabled) {
+        ItemStack icon = new ItemStack(item);
         icon.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,
                 Component.literal(enabled ? "§a自动补种：开启（点击关闭）" : "§c自动补种：关闭（点击开启）"));
         return icon;
